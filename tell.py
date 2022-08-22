@@ -1,6 +1,8 @@
+import imp
 import os
 import joblib
 import pandas as pd
+import numpy as np
 import torch
 import torch.nn.functional as F
 import matplotlib.pyplot as plt
@@ -89,7 +91,7 @@ class Net(nn.Module):
         self.cluster_layer.weight.data[cluster_id] = 2 * alpha * mu
 
 
-def inference(): 
+def inference(data_loader_test, net): 
     #net.eval()
     feature_vector = []
     labels_vector = []
