@@ -12,14 +12,13 @@ from torch import nn
 from sklearn.preprocessing import *
 
 class DDSafetyDataset(Dataset):
-  def __init__(self, path):
-    self.path = path #find the corresponding csv file
-    self.df = pd.read_excel(path)
+  def __init__(self, df):
+    self.df = df
     return 
 
   def __getitem__(self, index):
     df = self.df
-    return np.array(df.iloc[index,1:], dtype = np.float32), 0 #zero will not be used because the algorithm is unsupervised. 
+    return np.array(df.iloc[index,0:], dtype = np.float32), 0 #zero will not be used because the algorithm is unsupervised. 
 
   def __len__(self):
     return self.df.shape[0]

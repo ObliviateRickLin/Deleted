@@ -158,7 +158,7 @@ elif bt1:
 #--------------------------PAGE: Risk Visualization-------------------
 else:    
     st.title("Risk Visualization")
-    file_path = st.text_input('Enter the path of your rosbag file', 'output.bag')
+    file_path = st.text_input('Enter the path of your rosbag file', '/home/mm/下载/highway/PLEF36110_event_cp_cutin_event_20220530-194448_0.bag')	
 
     with st.spinner('Wait for it. The neural network is drawing the risk graph...'):
         df = ros2df(file=file_path)
@@ -168,8 +168,8 @@ else:
     df[["RelativeVelocity_x","RelativeVelocity_y","RelativeHeadingYaw","TTC","C2CRate","U_car"]] = (
         scale.transform(X=df[["RelativeVelocity_x","RelativeVelocity_y","RelativeHeadingYaw","TTC","C2CRate","U_car"]])
         )
-    df[["RelativeVelocity_x","RelativeVelocity_y","RelativeHeadingYaw","TTC","C2CRate","U_car"]].to_excel("./temporary_file/indicators_.xlsx")
-    data = DDSafetyDataset(path = "./temporary_file/indicators_.xlsx")
+    #df_ = df[["RelativeVelocity_x","RelativeVelocity_y","RelativeHeadingYaw","TTC","C2CRate","U_car"]]
+    data = DDSafetyDataset(df[["RelativeVelocity_x","RelativeVelocity_y","RelativeHeadingYaw","TTC","C2CRate","U_car"]])
     data_loader_test = DataLoader(data, batch_size=df.shape[0], shuffle= False, drop_last=True)  # ConcatDataset([train_dataset, test_dataset])
     feature, labels, hard, soft = inference(data_loader_test, net)
     soft = soft @ np.array([0,1,2,3])
