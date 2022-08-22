@@ -114,36 +114,8 @@ if bt2:
     
     ''')
 
-#--------------------------PAGE: Risk Visualization-------------------
-elif bt3:    
-    st.title("Risk Visualization")
-    file_path = st.text_input('Enter the path of your rosbag file', './output.bag')	
-
-    with st.spinner('Wait for it. The neural network is drawing the risk graph...'):
-        df = ros2df(file=file_path)
-        st.table(df.head())
-
-    df["TTC"] = (-df["TTC"]).apply(logistic_transformer)
-    df[["RelativeVelocity_x","RelativeVelocity_y","RelativeHeadingYaw","TTC","C2CRate","U_car"]] = (
-        scale.transform(X=df[["RelativeVelocity_x","RelativeVelocity_y","RelativeHeadingYaw","TTC","C2CRate","U_car"]])
-        )
-    df[["RelativeVelocity_x","RelativeVelocity_y","RelativeHeadingYaw","TTC","C2CRate","U_car"]].to_excel("./temporary_file/indicators_.xlsx")
-    data = DDSafetyDataset(path = "./temporary_file/indicators_.xlsx")
-    data_loader_test = DataLoader(data, batch_size=df.shape[0], shuffle= False, drop_last=True)  # ConcatDataset([train_dataset, test_dataset])
-    feature, labels, hard, soft = inference()
-    soft = soft @ np.array([0,1,2,3])
-    df["soft"] = 3-soft
-    df["hard"] = 3-hard
-
-    col1, col2 = st.columns([3,1])
-    with col1:
-        st.line_chart(df.groupby("TimeStamp")["soft"].max(), width=900, height=380, use_container_width = True)
-    with col2:
-        st.line_chart(df["RelativeVelocity_x"], width=300, height=105, use_container_width = True)
-        st.line_chart(df["RelativeVelocity_y"], width=300, height=105, use_container_width = True)
-        st.line_chart(df["RelativeHeadingYaw"], width=300, height=105, use_container_width = True)    
 #-------------------------PAGE: Model Deployment---------------------------
-elif bt4:
+if bt4:
     st.title("Model Deployment Instruction")
     st.header("1.Local Deployment")
     st.markdown('''
@@ -174,7 +146,7 @@ elif bt4:
 
 
 #--------------------------PAGE: Home Page-------------------------------
-else:
+elif bt1:
     col11,col12,col11 = st.columns((0.25,1,0.2))
     with col12:
         st.title("DRIVING RISK VISUALIZATION TOOL")
@@ -182,4 +154,33 @@ else:
     with col12:
         st.markdown("SAFETY IS THE HIGHEST PRIORITY")
     st.image("./image/DJI_0372.jpg")
+
+#--------------------------PAGE: Risk Visualization-------------------
+else:    
+    st.title("Risk Visualization")
+    file_path = st.text_input('Enter the path of your rosbag file', '/home/mm/下载/highway/PLEF36110_event_cp_cutin_event_20220530-194448_0.bag')	
+
+    with st.spinner('Wait for it. The neural network is drawing the risk graph...'):
+        df = ros2df(file=file_path)
+        st.table(df.head())
+
+    df["TTC"] = (-df["TTC"]).apply(logistic_transformer)
+    df[["RelativeVelocity_x","RelativeVelocity_y","RelativeHeadingYaw","TTC","C2CRate","U_car"]] = (
+        scale.transform(X=df[["RelativeVelocity_x","RelativeVelocity_y","RelativeHeadingYaw","TTC","C2CRate","U_car"]])
+        )
+    df[["RelativeVelocity_x","RelativeVelocity_y","RelativeHeadingYaw","TTC","C2CRate","U_car"]].to_excel("./temporary_file/indicators_.xlsx")
+    data = DDSafetyDataset(path = "./temporary_file/indicators_.xlsx")
+    data_loader_test = DataLoader(data, batch_size=df.shape[0], shuffle= False, drop_last=True)  # ConcatDataset([train_dataset, test_dataset])
+    feature, labels, hard, soft = inference(data_loader_test, net)
+    soft = soft @ np.array([0,1,2,3])
+    df["soft"] = 3-soft
+    df["hard"] = 3-hard
+
+    col1, col2 = st.columns([3,1])
+    with col1:
+        st.line_chart(df.groupby("TimeStamp")["soft"].max(), width=900, height=380, use_container_width = True)
+    with col2:
+        st.line_chart(df["RelativeVelocity_x"], width=300, height=105, use_container_width = True)
+        st.line_chart(df["RelativeVelocity_y"], width=300, height=105, use_container_width = True)
+        st.line_chart(df["RelativeHeadingYaw"], width=300, height=105, use_container_width = True)    
     
