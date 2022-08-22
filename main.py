@@ -158,7 +158,7 @@ elif bt1:
 #--------------------------PAGE: Risk Visualization-------------------
 else:    
     st.title("Risk Visualization")
-    file_path = st.text_input('Enter the path of your rosbag file', '/home/mm/下载/highway/PLEF36110_event_cp_cutin_event_20220530-194448_0.bag')	
+    file_path = st.text_input('Enter the path of your rosbag file', 'output.bag')
 
     with st.spinner('Wait for it. The neural network is drawing the risk graph...'):
         df = ros2df(file=file_path)
