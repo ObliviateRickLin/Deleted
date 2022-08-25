@@ -21,15 +21,15 @@ seed = 7
 torch.manual_seed(seed)
 torch.cuda.manual_seed_all(seed)
 torch.cuda.manual_seed(seed)
-    """Returns `True` if the user had the correct password."""
+"""Returns `True` if the user had the correct password."""
 
-    def password_entered():
-        """Checks whether a password entered by the user is correct."""
-        if st.session_state["password"] == st.secrets["password"]:
-            st.session_state["password_correct"] = True
-            del st.session_state["password"]  # don't store password
-        else:
-            st.session_state["password_correct"] = False
+def password_entered():
+"""Checks whether a password entered by the user is correct."""
+    if st.session_state["password"] == st.secrets["password"]:
+        st.session_state["password_correct"] = True
+        del st.session_state["password"]  # don't store password
+    else:
+        st.session_state["password_correct"] = False
 
     if "password_correct" not in st.session_state:
         # First run, show input for password.
