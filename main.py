@@ -21,15 +21,24 @@ seed = 7
 torch.manual_seed(seed)
 torch.cuda.manual_seed_all(seed)
 torch.cuda.manual_seed(seed)
-"""Returns `True` if the user had the correct password."""
+np.random.seed(seed)
 
-def password_entered():
-    """Checks whether a password entered by the user is correct."""
-    if st.session_state["password"] == st.secrets["password"]:
-        st.session_state["password_correct"] = True
-        del st.session_state["password"]  # don't store password
-    else:
-        st.session_state["password_correct"] = False
+scale = joblib.load("./model/scaler1.pkl")
+net = Net(dim=6, class_num=4).cpu()
+model_fp = os.path.join("./model/checkpoint_1700.tar")
+checkpoint = torch.load(model_fp, map_location=torch.device('cpu'))
+net.load_state_dict(checkpoint["net"], strict=False)
+#-----------------------------------------------------------------
+def check_password():
+    """Returns `True` if the user had the correct password."""
+
+    def password_entered():
+        """Checks whether a password entered by the user is correct."""
+        if st.session_state["password"] == st.secrets["password"]:
+            st.session_state["password_correct"] = True
+            del st.session_state["password"]  # don't store password
+        else:
+            st.session_state["password_correct"] = False
 
     if "password_correct" not in st.session_state:
         # First run, show input for password.
@@ -86,9 +95,7 @@ if check_password():
 
         st.sidebar.info(
             """
-            This web [app](https://ricklin616-riskviz-momenta-stream-try-9ndhvy.streamlitapp.com) is maintained by Jinrui Lin.   
-            The source code will not open to the pubic.  
-            Connected the author by 120090527@link.cuhk.edu.cn if you need technical help.    
+            This web [app](https://ricklin616-riskviz-momenta-stream-try-9ndhvy.streamlitapp.com) is maintained by Jinrui Lin.
         """
         )
 
