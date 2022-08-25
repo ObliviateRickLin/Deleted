@@ -21,15 +21,6 @@ seed = 7
 torch.manual_seed(seed)
 torch.cuda.manual_seed_all(seed)
 torch.cuda.manual_seed(seed)
-np.random.seed(seed)
-
-scale = joblib.load("./model/scaler1.pkl")
-net = Net(dim=6, class_num=4).cpu()
-model_fp = os.path.join("./model/checkpoint_1700.tar")
-checkpoint = torch.load(model_fp, map_location=torch.device('cpu'))
-net.load_state_dict(checkpoint["net"], strict=False)
-#-----------------------------------------------------------------
-def check_password():
     """Returns `True` if the user had the correct password."""
 
     def password_entered():
@@ -95,7 +86,9 @@ if check_password():
 
         st.sidebar.info(
             """
-            This web [app](https://ricklin616-riskviz-momenta-stream-try-9ndhvy.streamlitapp.com) is maintained by Jinrui Lin.
+            This web [app](https://ricklin616-riskviz-momenta-stream-try-9ndhvy.streamlitapp.com) is maintained by Jinrui Lin.   
+            The source code will not open to the pubic.  
+            Connected the author by 120090527@link.cuhk.edu.cn if you need technical help.    
         """
         )
 
