@@ -95,7 +95,9 @@ if check_password():
 
         st.sidebar.info(
             """
-            This web [app](https://ricklin616-riskviz-momenta-stream-try-9ndhvy.streamlitapp.com) is maintained by Jinrui Lin.
+            This web [app](https://ricklin616-riskviz-momenta-stream-try-9ndhvy.streamlitapp.com) is maintained by Jinrui Lin.  
+            The source code will not be open to the pulic.  
+            Contact the author by 120090527@link.cuhk.edu.cn if you need technical help.
         """
         )
 
