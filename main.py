@@ -165,7 +165,7 @@ if check_password():
         st.header("3.Further Improvement")
         st.markdown('''
         (1)Data  
-        Users can colleted some extreme cases into the training data. ''')
+        Users can collected some extreme cases into the training data. ''')
         st.markdown('''
         (2)Feature engineering  
         More SSMs or other criteria can be used in this step. However, remember to change the parameter in TELL network.''')
