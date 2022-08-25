@@ -107,7 +107,7 @@ if check_password():
         st.header("1.Introduction")
         st.markdown('''
             The algorithm aims to develop a method of evaluating the real-time collision risk.
-            It will use TELL, a deep clustering algorithm, to find the risk level. 
+            It uses TELL, a deep clustering algorithm, to find the risk level. 
             The risk level ranges from 0 to 3. The final resualt is the weighted average of those four level. 
             The general workflow is composed of three parts:  
             (1) ROS2DF  
@@ -125,7 +125,7 @@ if check_password():
         st.subheader("2.2. Feature Engineering")
         st.markdown('''
         It's hard to measure the level of safety using only raw data. That's why feature engineering is used.
-        During this step, raw data will be transfered into six safety-related criteria named surrogate safety metrics (SSMs),
+        During this step, raw data will be transformed into six safety-related criteria named surrogate safety metrics (SSMs),
         to quantify severity of traffic interaction.
         We will do feature engineering based on SSMs, incorporate our domain knowledge into the clustering model and enhance the explanablity of the model.
         The detailed information is listed as follows
@@ -139,7 +139,7 @@ if check_password():
         st.latex(r"U_{car,m}(K)=A_{car}{e^{-\alpha K}\over K}")
         st.markdown('''
         where K is a distance measurement to the $m^{th}$ obstacle car.
-        The detailed informationa bout U_car can be find in the paper
+        The detailed informationa bout U_car can be found in the paper
         < Artificial Potential Functions for Highway Driving with Collision Avoidance >.''')
         st.markdown('''
         (2) C2C Rate  
@@ -157,8 +157,9 @@ if check_password():
         ''')
         st.subheader("2.3. TELL")
         st.markdown('''
-        TELL is a continous deep clusterin algorithm, which uses neurual network to find the clustering center.
-        The encoder and decoder will be both 4-layers fully connected anto-encoder, which is applied to makes feature reduction and decomposition.
+        TELL is a continous deep clustering algorithm, which uses neurual network to find the clustering center.
+        It has an auto-encoder and a clustering layer. The encoder and decoder will be both 4-layers fully connected, which is applied to makes feature reduction and decomposition.  
+        When more SSMs are added to the model, the structure of the model will be changed correspondingly.
         ''')
         st.image("./image/TELL_workflow.PNG")
         st.header("3.Further Improvement")
@@ -191,7 +192,7 @@ if check_password():
         The following instruction illustrates how to deploy the app on a local computer.
         Before moving to specific steps, I highly encourage you to deploy this app in a new virtual environment.
         After that your can analysis the rosbag file using the local url.
-        The file of this tool is attached and please download it.
+        The file of this tool is [attached](https://momenta.feishu.cn/wiki/wikcn0DEvcMF8L1ig4EUHJg8gCf?from=from_copylink) and please download it.  
         Then open the terminal of your file and establish the environment according to the requirement.txt with the following code:
         ''' )
         st.code('''
